@@ -7,7 +7,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
-    public DbSet<Eveniment> Evenimente { get; set; }
-    public DbSet<Participant> Participanti { get; set; }
-    public DbSet<ParticipaEveniment> ParticipaEveniment { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<ApplicationUser> Users { get; set; }
+    public DbSet<OrderProduct> OrderProducts { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Pret)
+            .HasColumnType("decimal(18, 2)");
+    }
 }

@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class ParticipaEveniment
+public class OrderProduct
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
-    public int ID_Participant { get; set; }
-    public int ID_Eveniment { get; set; }
+    public int OrderId { get; set; }
+    [Required]
+    public int ProductId { get; set; }
 }

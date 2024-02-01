@@ -1,6 +1,6 @@
-@Test_Asp.NET_HostAddress = http://localhost:5273
+@Succulento_ASP.NET_HostAddress = http://localhost:5273
 
-GET {{Test_Asp.NET_HostAddress}}/weatherforecast/
+GET {{Succulento_ASP.NET_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
