@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
     {
         return await _context.Orders.ToListAsync();
@@ -24,6 +26,7 @@ public class OrdersController : ControllerBase
 
     // GET: api/Orders/5
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Order>> GetOrder(int id)
     {
         var order = await _context.Orders

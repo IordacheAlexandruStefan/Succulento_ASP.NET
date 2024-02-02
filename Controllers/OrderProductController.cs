@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ public class OrderProductsController : ControllerBase
 
     // GET: api/OrderProducts
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<OrderProduct>>> GetOrderProducts()
     {
         return await _context.OrderProducts.ToListAsync();

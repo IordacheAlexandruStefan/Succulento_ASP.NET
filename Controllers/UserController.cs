@@ -51,6 +51,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetUsers()
     {
         var users = _userManager.Users.ToList();
