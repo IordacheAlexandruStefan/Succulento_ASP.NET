@@ -115,6 +115,7 @@ public class UsersController : ControllerBase
 
             var claims = new List<Claim>
         {
+            new Claim(ClaimTypes.NameIdentifier, user.Id), // Include the user's ID in the token
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
@@ -142,6 +143,7 @@ public class UsersController : ControllerBase
         }
         return Unauthorized();
     }
+
 
 
 
