@@ -1,0 +1,65 @@
+/* src/app/components/succulent-list/succulent-list.component.css */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .grid-item {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .grid-item img {
+    max-width: 100%; /* Adjust if necessary */
+    height: auto; /* Adjust if necessary to maintain aspect ratio */
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .grid-item h2 {
+    text-align: center;
+    color: #28402a;
+    margin: 10px 0;
+  }
+  
+  .grid-item p {
+    text-align: center;
+    color: #3c523e;
+  }
+  
+  .item-footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .price {
+    text-align: left;
+    margin: 0; /* Remove margin to align to the bottom left */
+    font-weight: bold;
+    color: #4caf50; /* Adjust color to your preference */
+  }
+  
+  .add-to-cart-btn {
+    background-color: #4caf50; /* Light green background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: right;
+  }
+  
+  .add-to-cart-btn:hover {
+    background-color: #367b39; /* A darker green for hover effect */
+  }
+  

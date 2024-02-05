@@ -1,0 +1,81 @@
+/* Overall container and spacing */
+.container {
+    background-color: #f4f4f4; /* light grey background */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  /* Styling for form inputs */
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #4CAF50; /* Primary button with light green */
+    color: white;
+  }
+  
+  .btn-danger {
+    background-color: #f44336; /* Red color for delete buttons */
+    color: white;
+  }
+  
+  /* Table styles */
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+  }
+  
+  .table thead tr {
+    background-color: #4CAF50; /* Light green header */
+    color: white;
+  }
+  
+  .table th, .table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #dddddd;
+  }
+  
+  .table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Zebra striping for odd rows */
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f2f2f2; /* Hover effect for table rows */
+  }
+  
+  /* Headings */
+  h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Add some padding to the page */
+  body {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  

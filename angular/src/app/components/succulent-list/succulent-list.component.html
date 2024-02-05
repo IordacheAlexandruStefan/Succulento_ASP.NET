@@ -1,0 +1,11 @@
+<div class="grid-container">
+    <div class="grid-item" *ngFor="let succulent of succulents">
+      <img src="/assets/{{ succulent.urlPoza }}" alt="{{ succulent.nume }}">
+      <h2>{{ succulent.nume }}</h2>
+      <p>{{ succulent.descriere }}</p>
+      <div class="item-footer">
+        <p class="price">Price: {{ succulent.pret | currency }}</p>
+        <button (click)="addToCart(succulent)" class="add-to-cart-btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
