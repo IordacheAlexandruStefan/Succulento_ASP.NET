@@ -74,6 +74,15 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Resolve dependencies
+var scope = app.Services.CreateScope();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+// Call the seed method
+DataSeeder.SeedData(userManager, roleManager, context);
+
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("AllowWebApp");
