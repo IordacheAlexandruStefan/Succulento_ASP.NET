@@ -1,0 +1,115 @@
+/* account.component.css */
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  h2 {
+    color: #2a6041;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group label {
+    display: block;
+    color: #2a6041;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .form-control:focus {
+    border-color: #80c98f;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(128, 201, 143, 0.25);
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
+  
+  .btn-secondary {
+    color: #fff;
+    background-color: #8bc34a;
+    border-color: #8bc34a;
+  }
+  
+  .btn-warning {
+    color: #212529;
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .btn-success {
+    color: #fff;
+    background-color: #4caf50;
+    border-color: #4caf50;
+  }
+  
+  .btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
+  
+  .btn:not(:disabled):not(.disabled):active,
+  .btn:not(:disabled):not(.disabled).active {
+    background-color: #3e8e41;
+    border-color: #3e8e41;
+  }
+  
+  .btn:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  /* Additional styles for responsive design and spacing */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+  }
+  
+  .row {
+    margin-bottom: 1rem;
+  }
+  
+  .row:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Add more styles as needed */
+  

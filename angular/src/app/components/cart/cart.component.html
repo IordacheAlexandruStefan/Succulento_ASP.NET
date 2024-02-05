@@ -1,0 +1,25 @@
+<!-- src/app/components/cart/cart.component.html -->
+<!-- src/app/components/cart/cart.component.html -->
+
+<div class="cart-container">
+    <div *ngFor="let item of cartItems; let i = index" class="cart-item">
+      <div class="product-info">
+        <img src="/assets/{{ item.imageUrl }}" alt="{{item.name}}" class="product-image">
+        <p class="product-name">{{item.name}}</p>
+      </div>
+      <div class="quantity-controls">
+        <button (click)="decrementQuantity(i)">-</button>
+        <input type="number" [(ngModel)]="item.quantity" (change)="updateQuantity(i, item.quantity)">
+        <button (click)="incrementQuantity(i)">+</button>
+      </div>
+      <p class="item-total">{{ getTotalPrice(item) | currency }}</p> <!-- Display the total price here -->
+      <button (click)="removeFromCart(item.productId)" class="remove-button">Remove</button>
+    </div>
+    <div class="cart-actions">
+        <button (click)="clearCart()" class="clear-cart">Clear Cart</button>
+        <div class="checkout-section">
+          <span class="final-price">Total: {{ getTotalOrderPrice() | currency }}</span>
+          <button (click)="checkout()" class="checkout">Checkout</button>
+        </div>
+      </div>      
+  </div>
