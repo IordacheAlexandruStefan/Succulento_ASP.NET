@@ -14,15 +14,29 @@ export class RegisterComponent {
     nume: '',
     prenume: ''
   };
+  registerPasswordError: string = '';  // To hold password validation error
 
   constructor(private authService: AuthService) { }
 
   register(): void {
+    // Validate password for complexity
+    if (!this.validatePassword(this.user.password)) {
+      this.registerPasswordError = 'Password must contain at least one capital letter, one small letter, a number, and a special character.';
+      return;
+    } else {
+      this.registerPasswordError = '';
+    }
     this.authService.register(this.user).subscribe({
       next: (res) => {
-        console.log('Registration successful');
+        console.log('Registration successful:', res);
       },
-      error: (err) => console.error(err)
+      error: (err) => console.error('Registration failed:', err)
     });
+  }
+
+  // Helper function to validate password complexity
+  validatePassword(password: string): boolean {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+    return regex.test(password);
   }
 }
