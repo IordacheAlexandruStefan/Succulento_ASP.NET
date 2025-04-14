@@ -10,6 +10,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -34,11 +36,12 @@ public class UsersController : ControllerBase
         ApplicationUser user = new ApplicationUser()
         {
             Email = model.Email,
-            SecurityStamp = System.Guid.NewGuid().ToString(),
+            SecurityStamp = Guid.NewGuid().ToString(),
             UserName = model.Username,
             Nume = model.Nume,
             Prenume = model.Prenume
         };
+
         var result = await _userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
             return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
@@ -58,10 +61,20 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
+    // Updated DeleteUser endpoint: allow self-deletion or deletion by an Admin.
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<IActionResult> DeleteUser(string id)
     {
+        // Get the ID of the user making the request
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        // If the current user is not an admin and is trying to delete an account other than their own, forbid the request.
+        if (!User.IsInRole("Admin") && currentUserId != id)
+        {
+            return Forbid();
+        }
+
         var user = await _userManager.FindByIdAsync(id);
         if (user == null)
         {
@@ -114,11 +127,11 @@ public class UsersController : ControllerBase
             var userRoles = await _userManager.GetRolesAsync(user);
 
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id), // Include the user's ID in the token
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        };
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
 
             foreach (var userRole in userRoles)
             {
@@ -143,16 +156,14 @@ public class UsersController : ControllerBase
         }
         return Unauthorized();
     }
-
-
-
-
 }
+
 public class LoginModel
 {
     public string Username { get; set; }
     public string Password { get; set; }
 }
+
 public class RegisterModel
 {
     public string Username { get; set; }

@@ -5,16 +5,15 @@ import { HttpClient } from '@angular/common/http';
 
 export interface CartItem {
   productId: number;
-  name: string;      // Name of the product
-  imageUrl: string;  // URL to the product's image
+  name: string;      
+  imageUrl: string;  
   quantity: number;
-  price: number; // price for one item
+  price: number;
 }
-
 
 export interface Order {
   id?: number;
-  idClient: number; // Assuming you have a client ID to associate with the order
+  idClient: number;
 }
 
 export interface OrderProduct {
@@ -44,22 +43,20 @@ export class CartService {
     return savedCart ? JSON.parse(savedCart) : [];
   }
 
-  // src/app/services/cart.service.ts
-
-public addToCart(item: CartItem) {
-  const currentItems = [...this.itemsInCartSubject.getValue()];
-  const itemFound = currentItems.find(ci => ci.productId === item.productId);
-  if (itemFound) {
-    itemFound.quantity += item.quantity;
-  } else {
-    currentItems.push(item);
+  public addToCart(item: CartItem) {
+    const currentItems = [...this.itemsInCartSubject.getValue()];
+    const itemFound = currentItems.find(ci => ci.productId === item.productId);
+    if (itemFound) {
+      itemFound.quantity += item.quantity;
+    } else {
+      currentItems.push(item);
+    }
+    this.itemsInCartSubject.next(currentItems);
   }
-  this.itemsInCartSubject.next(currentItems);
-}
-
 
   public removeFromCart(productId: number) {
-    const currentItems = [...this.itemsInCart];
+    // Use the current items from the BehaviorSubject to filter out the item
+    const currentItems = [...this.itemsInCartSubject.getValue()];
     const itemsWithoutRemoved = currentItems.filter(item => item.productId !== productId);
     this.itemsInCartSubject.next(itemsWithoutRemoved);
   }
@@ -87,19 +84,17 @@ public addToCart(item: CartItem) {
     const idClient = parseInt(userId);
     const cartItems = this.itemsInCartSubject.getValue();
   
-    const order = { idClient }; // Create an order object based on your backend schema
+    const order = { idClient };
     this.http.post<Order>('https://localhost:7031/api/orders', order).subscribe(
       (createdOrder) => {
-        // Check if the order ID is present
         if (!createdOrder || typeof createdOrder.id === 'undefined') {
           console.error('Order ID was not returned from the backend.');
           return;
         }
         
-        // At this point, TypeScript knows createdOrder.id is defined
         cartItems.forEach((cartItem) => {
           const orderProduct: OrderProduct = {
-            orderId: createdOrder.id!, // Safe to access id here
+            orderId: createdOrder.id!,
             productId: cartItem.productId,
             cantitate: cartItem.quantity,
           };

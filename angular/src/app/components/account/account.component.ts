@@ -6,13 +6,10 @@ import { UpdateUserModel } from '../../services/update-user.model';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 
-
 interface DecodedToken {
   "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
   nameid: string;
-
 }
-
 
 @Component({
   selector: 'app-account',
@@ -24,6 +21,8 @@ export class AccountComponent {
   showRegister = false;
   username!: string;
   password!: string;
+  loginError: boolean = false;  // Flag to indicate login error
+
   newUser: User = {
     username: '',
     email: '',
@@ -31,6 +30,9 @@ export class AccountComponent {
     nume: '',
     prenume: ''
   };
+
+  // Property to store password complexity error for registration
+  registerPasswordError: string = '';
 
   currentUser: UpdateUserModel = {
     nume: '',
@@ -40,21 +42,30 @@ export class AccountComponent {
 
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) { }
   
-
   login(): void {
     this.authService.login(this.username, this.password).subscribe({
       next: (res) => {
         localStorage.setItem('token', res.token);
         console.log('Login successful:', res);
+        this.loginError = false; // Clear any previous error
         this.router.navigate(['/shop']);
       },
       error: (err) => {
         console.error('Login failed:', err);
+        this.loginError = true;  // Show the error message
       }
     });
   }
 
   register(): void {
+    // Validate the password before making the API call
+    if (!this.validatePassword(this.newUser.password)) {
+      this.registerPasswordError = 'Password must contain at least one capital letter, one small letter, a number, and a special character.';
+      return;
+    } else {
+      this.registerPasswordError = '';
+    }
+    
     this.authService.register(this.newUser).subscribe({
       next: (res) => {
         console.log('Registration successful:', res);
@@ -64,11 +75,35 @@ export class AccountComponent {
       }
     });
   }
+
   logout(): void {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
     console.log('Logout successful');
   }
+  
+  // New method: Remove the user's account.
+  removeAccount(): void {
+    const userId = this.getUserIdFromToken();
+    if (!userId) {
+      alert('Error: Cannot remove account without user ID.');
+      return;
+    }
+    const apiUrl = `https://localhost:7031/api/users/${userId}`;
+    this.http.delete(apiUrl).subscribe({
+      next: (res) => {
+        console.log('Account removed successfully:', res);
+        alert('Account removed successfully.');
+        localStorage.removeItem('token');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Account removal failed:', err);
+        alert('Failed to remove account. Please try again later.');
+      }
+    });
+  }
+  
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
@@ -94,8 +129,6 @@ export class AccountComponent {
       });
   }
   
-  
-
   private getUserIdFromToken(): string {
     const token = localStorage.getItem('token');
     if (!token) return '';
@@ -116,5 +149,11 @@ export class AccountComponent {
       console.error('Error decoding token:', error);
       return '';
     }
+  }
+
+  // Helper function to validate password complexity
+  validatePassword(password: string): boolean {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
+    return regex.test(password);
   }
 }
