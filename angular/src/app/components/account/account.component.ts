@@ -21,8 +21,9 @@ export class AccountComponent {
   showRegister = false;
   username!: string;
   password!: string;
-  loginError: boolean = false;  // Flag to indicate login error
+  loginError: boolean = false;  // Flag for login errors
 
+  // This user object is used for registration
   newUser: User = {
     username: '',
     email: '',
@@ -31,8 +32,10 @@ export class AccountComponent {
     prenume: ''
   };
 
-  // Property to store password complexity error for registration
+  // New properties for handling registration errors and successes.
+  registerUsernameError: string = '';
   registerPasswordError: string = '';
+  registrationSuccess: string = ''; // Holds the success message after registration
 
   currentUser: UpdateUserModel = {
     nume: '',
@@ -47,18 +50,22 @@ export class AccountComponent {
       next: (res) => {
         localStorage.setItem('token', res.token);
         console.log('Login successful:', res);
-        this.loginError = false; // Clear any previous error
+        this.loginError = false; // Clear error flag
         this.router.navigate(['/shop']);
       },
       error: (err) => {
         console.error('Login failed:', err);
-        this.loginError = true;  // Show the error message
+        this.loginError = true;
       }
     });
   }
 
   register(): void {
-    // Validate the password before making the API call
+    // Reset previous errors and success message
+    this.registerUsernameError = '';
+    this.registrationSuccess = '';
+    
+    // Validate password complexity before sending data to the backend
     if (!this.validatePassword(this.newUser.password)) {
       this.registerPasswordError = 'Password must contain at least one capital letter, one small letter, a number, and a special character.';
       return;
@@ -69,9 +76,17 @@ export class AccountComponent {
     this.authService.register(this.newUser).subscribe({
       next: (res) => {
         console.log('Registration successful:', res);
+        // Set success message for the user
+        this.registrationSuccess = "Registration successful!";
+        // Optionally clear the form inputs:
+        this.newUser = { username: '', email: '', password: '', nume: '', prenume: '' };
       },
       error: (err) => {
         console.error('Registration failed:', err);
+        // Check if the error message from backend indicates the user already exists
+        if (err.error && err.error.message && err.error.message.indexOf("already exists") !== -1) {
+          this.registerUsernameError = "Username is already taken.";
+        }
       }
     });
   }
@@ -82,7 +97,6 @@ export class AccountComponent {
     console.log('Logout successful');
   }
   
-  // New method: Remove the user's account.
   removeAccount(): void {
     const userId = this.getUserIdFromToken();
     if (!userId) {
