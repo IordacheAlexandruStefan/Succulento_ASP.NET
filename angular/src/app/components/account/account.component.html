@@ -31,6 +31,10 @@
         <div class="form-group">
           <label for="registerUsername">Username</label>
           <input type="text" id="registerUsername" class="form-control" [(ngModel)]="newUser.username" name="username" required>
+          <!-- Display username error if exists -->
+          <div *ngIf="registerUsernameError" class="error-message">
+            {{ registerUsernameError }}
+          </div>
         </div>
         <div class="form-group">
           <label for="registerEmail">Email</label>
@@ -52,12 +56,15 @@
           <input type="text" id="registerPrenume" class="form-control" [(ngModel)]="newUser.prenume" name="prenume" required>
         </div>
         <button type="submit" class="btn btn-success">Register</button>
+        <!-- Display registration success message -->
+        <div *ngIf="registrationSuccess" class="success-message">
+          {{ registrationSuccess }}
+        </div>
       </form>
     </div>
   </div>
   <div class="row" *ngIf="isLoggedIn()">
     <div class="col">
-      <!-- Existing Logout button and the new Remove Account button -->
       <button class="btn btn-warning" (click)="logout()">Logout</button>
       <button class="btn btn-danger" (click)="removeAccount()">Remove Account</button>
     </div>
