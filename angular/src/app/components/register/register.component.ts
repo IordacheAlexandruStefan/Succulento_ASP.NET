@@ -14,23 +14,35 @@ export class RegisterComponent {
     nume: '',
     prenume: ''
   };
-  registerPasswordError: string = '';  // To hold password validation error
+  
+  registerUsernameError: string = '';  // Holds the username error message
+  registerPasswordError: string = '';  // Holds the password validation error
 
   constructor(private authService: AuthService) { }
 
   register(): void {
-    // Validate password for complexity
+    // Reset previous username error on each submission
+    this.registerUsernameError = '';
+    
+    // Validate password complexity
     if (!this.validatePassword(this.user.password)) {
       this.registerPasswordError = 'Password must contain at least one capital letter, one small letter, a number, and a special character.';
       return;
     } else {
       this.registerPasswordError = '';
     }
+    
     this.authService.register(this.user).subscribe({
       next: (res) => {
         console.log('Registration successful:', res);
       },
-      error: (err) => console.error('Registration failed:', err)
+      error: (err) => {
+        console.error('Registration failed:', err);
+        // Check if the error message indicates the username already exists
+        if (err.error && err.error.message && err.error.message.indexOf("already exists") !== -1) {
+          this.registerUsernameError = "Username is already taken.";
+        }
+      }
     });
   }
 
