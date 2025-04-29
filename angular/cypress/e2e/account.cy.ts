@@ -96,6 +96,9 @@ describe('Account', () => {
 
         // Ştergem contul
         cy.get('button[class="btn btn-danger"]').click();
+
+        // Aşteptăm să apară alerta
+        cy.wait(500);
         
         // Verificăm că alerta a fost apelată cu mesajul de succes așteptat
         cy.then(() => {
