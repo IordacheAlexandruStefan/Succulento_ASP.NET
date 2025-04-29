@@ -4,7 +4,7 @@ https://docs.google.com/document/d/1crHwQiGZ1JfumC49VS6kO7kMjrVWWDBewU_N_JqGXto/
 <br>
 <br>
 Link Prezentare PowerPoint:
-TBA
+https://docs.google.com/presentation/d/1H_0J9pjBfOlQYTGsG_8s1AsnXXHOwuEi64iKCr6xO8o/edit?usp=sharing
 <br>
 <br>
 Link Video:
